@@ -8,7 +8,6 @@ import {
   ColorsData,
   ImageData,
   DecodedImage,
-  Point,
   Position,
 } from "types";
 import { getAvatarsFromColor } from "./getAvatarsFromColor";
@@ -25,6 +24,7 @@ const loadImage = (url: string): Promise<DecodedImage> => {
             filterType: 4,
           })
         )
+        // eslint-disable-next-line func-names
         .on("parsed", function (img) {
           resolve(this);
         });
