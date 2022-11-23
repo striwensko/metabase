@@ -1,4 +1,3 @@
 import { message } from "./message";
-//import jpeg from "jpeg-js";
-
-console.log(message);
+import jpeg from "jpeg-js";
+console.log(message, jpeg);

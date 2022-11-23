@@ -1,17 +1,20 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "noImplicitAny": false,
     "target": "es5",
     "outDir": "./build",
-    "importHelpers": false,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": ["src"]
 }
