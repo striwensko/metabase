@@ -62,14 +62,15 @@ const createBufferFromColors = (data: ColorsData) => {
   return bytes;
 };
 const extractColors = (settings: Settings, image: DecodedImage): ColorsData => {
-  const columns = Math.floor(image.width / settings.coverGridSize);
-  const rows = Math.floor(image.height / settings.coverGridSize);
+  const coverGridSize = image.width / settings.mosaicColumns;
+  const columns = Math.floor(image.width / coverGridSize);
+  const rows = Math.floor(image.height / coverGridSize);
   const colors: Color[][] = new Array(columns);
   for (let col = 0; col < columns; col++) {
     colors[col] = new Array(rows);
     for (let row = 0; row < rows; row++) {
-      const x = (col * settings.coverGridSize + settings.coverGridSize / 2) | 0;
-      const y = (row * settings.coverGridSize + settings.coverGridSize / 2) | 0;
+      const x = (col * coverGridSize + coverGridSize / 2) | 0;
+      const y = (row * coverGridSize + coverGridSize / 2) | 0;
       const index = (x + image.width * y) * 4;
       colors[col][row] = {
         blue: (image.data[index + 2] & 0xe0) >> 5,
@@ -129,7 +130,10 @@ const createMosaicFromColors = (
       }
     }
   }
-  return { bytes, avatars };
+  return {
+    bytes,
+    avatars: { avatarSize: settings.avatarSize, avatars, columns, rows },
+  };
 };
 const buildMosaic = async (settings: Settings) => {
   const { avatarSize } = settings;
@@ -165,9 +169,9 @@ buildMosaic({
   avatarSize: 32,
   avatarsUrl: "./albums/source.jpg",
   samplingUrl: "./albums/sampling.jpg",
+  // The number of columns on the exported mosaic
+  mosaicColumns: 100,
   coverUrl: "./albums/Rihanna_-_Loud.png",
   exportUrl: "./albums/mosaic.jpg",
   exportUrlJSON: "./albums/avatars.json",
-  // 300 image size we want 30 cols
-  coverGridSize: 300 / 100,
 });

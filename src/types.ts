@@ -2,8 +2,8 @@ export type Settings = {
   avatarsUrl: string;
   avatarSize: 24 | 32 | 64;
   samplingUrl: string;
+  mosaicColumns: number;
   coverUrl: string;
-  coverGridSize: number;
   exportUrl: string;
   exportUrlJSON: string;
 };
