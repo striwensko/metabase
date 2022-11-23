@@ -1,0 +1,9 @@
+{
+  "avatarSize": 32,
+  "avatarsUrl": "./demo/source.jpg",
+  "samplingUrl": "./demo/sampling.jpg",
+  "mosaicColumns": 100,
+  "coverUrl": "./demo/Rihanna_-_Loud.png",
+  "exportUrl": "./demo/mosaic.jpg",
+  "exportUrlJSON": "./demo/avatars.json"
+}

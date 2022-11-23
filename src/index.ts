@@ -136,7 +136,7 @@ const createMosaicFromColors = (
   };
 };
 const loadProject = () => {
-  const settingsUrl = `./albums/${process.argv[2]}/settings.json`;
+  const settingsUrl = `./${process.argv[2]}/settings.json`;
   var settings = JSON.parse(fs.readFileSync(settingsUrl, "utf8"));
 
   const demo: Settings = {
