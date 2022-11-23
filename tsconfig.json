@@ -1,8 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "noImplicitAny": false,
     "target": "es5",
     "outDir": "./build",
-    "importHelpers": false
-  }
+    "importHelpers": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": ["src"]
 }
