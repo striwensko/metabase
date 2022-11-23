@@ -5,6 +5,7 @@ export type Settings = {
   coverUrl: string;
   coverGridSize: number;
   exportUrl: string;
+  exportUrlJSON: string;
 };
 export type Color = {
   red: number;

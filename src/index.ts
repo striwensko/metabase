@@ -45,7 +45,7 @@ const saveImage = (data: ImageData, url: string) => {
     },
     100
   );
-  fs.writeFile(url, jpegImageData.data, console.log);
+  fs.writeFile(url, jpegImageData.data, () => {});
 };
 const createBufferFromColors = (data: ColorsData) => {
   const { columns, rows, data: colors } = data;
@@ -95,8 +95,10 @@ const createMosaicFromColors = (
   );
   const colorRatio = 0.5;
   const imageRatio = 1 - colorRatio;
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < columns; col++) {
+  const avatars: Position[][] = new Array(columns);
+  for (let col = 0; col < columns; col++) {
+    avatars[col] = new Array(rows);
+    for (let row = 0; row < rows; row++) {
       const color = colors[col][row];
       const pool = getAvatarsFromColor(pools, color);
 
@@ -107,6 +109,8 @@ const createMosaicFromColors = (
       const red = (colorRatio * (color.red << 5)) | 0;
       const green = (colorRatio * (color.green << 5)) | 0;
       const blue = (colorRatio * (color.blue << 5)) | 0;
+
+      avatars[col][row] = item;
       for (let x = 0; x < avatarSize; x += 1) {
         for (let y = 0; y < avatarSize; y += 1) {
           const _x = avatarSize * col + x;
@@ -125,7 +129,7 @@ const createMosaicFromColors = (
       }
     }
   }
-  return bytes;
+  return { bytes, avatars };
 };
 const buildMosaic = async (settings: Settings) => {
   const { avatarSize } = settings;
@@ -141,19 +145,19 @@ const buildMosaic = async (settings: Settings) => {
   );
   const pools = getColorsFromAvatar(avatarsImage, settings.avatarSize);
 
-  const mosaicBuffer = createMosaicFromColors(
-    settings,
-    pools,
-    colors,
-    avatarsImage
-  );
+  const mosaic = createMosaicFromColors(settings, pools, colors, avatarsImage);
   saveImage(
     {
-      buffer: mosaicBuffer,
+      buffer: mosaic.bytes,
       width: colors.columns * avatarSize,
       height: colors.rows * avatarSize,
     },
     settings.exportUrl
+  );
+  fs.writeFile(
+    settings.exportUrlJSON,
+    JSON.stringify(mosaic.avatars),
+    () => {}
   );
 };
 
@@ -163,6 +167,7 @@ buildMosaic({
   samplingUrl: "./albums/sampling.jpg",
   coverUrl: "./albums/Rihanna_-_Loud.png",
   exportUrl: "./albums/mosaic.jpg",
+  exportUrlJSON: "./albums/avatars.json",
   // 300 image size we want 30 cols
   coverGridSize: 300 / 100,
 });
