@@ -45,7 +45,9 @@ const saveImage = (data: ImageData, url: string) => {
     },
     100
   );
-  fs.writeFile(url, jpegImageData.data, () => {});
+  fs.writeFile(url, jpegImageData.data, () => {
+    // Complete
+  });
 };
 const createBufferFromColors = (data: ColorsData) => {
   const { columns, rows, data: colors } = data;
@@ -137,7 +139,7 @@ const createMosaicFromColors = (
 };
 const loadProject = () => {
   const settingsUrl = `./${process.argv[2]}/settings.json`;
-  var settings = JSON.parse(fs.readFileSync(settingsUrl, "utf8"));
+  const settings = JSON.parse(fs.readFileSync(settingsUrl, "utf8"));
 
   const demo: Settings = {
     avatarSize: 32,
@@ -183,11 +185,9 @@ const buildMosaic = async (settings: Settings) => {
     },
     settings.exportUrl
   );
-  fs.writeFile(
-    settings.exportUrlJSON,
-    JSON.stringify(mosaic.avatars),
-    () => {}
-  );
+  fs.writeFile(settings.exportUrlJSON, JSON.stringify(mosaic.avatars), () => {
+    // Complete
+  });
 };
 
 loadProject();
