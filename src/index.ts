@@ -135,6 +135,31 @@ const createMosaicFromColors = (
     avatars: { avatarSize: settings.avatarSize, avatars, columns, rows },
   };
 };
+const loadProject = () => {
+  const settingsUrl = `./albums/${process.argv[2]}/settings.json`;
+  var settings = JSON.parse(fs.readFileSync(settingsUrl, "utf8"));
+
+  const demo: Settings = {
+    avatarSize: 32,
+    avatarsUrl: "./albums/source.jpg",
+    samplingUrl: "./albums/sampling.jpg",
+    // The number of columns on the exported mosaic
+    mosaicColumns: 100,
+    coverUrl: "./albums/Rihanna_-_Loud.png",
+    exportUrl: "./albums/mosaic.jpg",
+    exportUrlJSON: "./albums/avatars.json",
+  };
+  let isJSONValid = true;
+  Object.keys(demo).forEach((key) => {
+    if (!settings[key]) {
+      isJSONValid = false;
+      console.log("Missing " + key + " in " + settingsUrl);
+    }
+  });
+  if (isJSONValid) {
+    buildMosaic(settings);
+  }
+};
 const buildMosaic = async (settings: Settings) => {
   const { avatarSize } = settings;
   const image = await loadImage(settings.coverUrl);
@@ -165,13 +190,4 @@ const buildMosaic = async (settings: Settings) => {
   );
 };
 
-buildMosaic({
-  avatarSize: 32,
-  avatarsUrl: "./albums/source.jpg",
-  samplingUrl: "./albums/sampling.jpg",
-  // The number of columns on the exported mosaic
-  mosaicColumns: 100,
-  coverUrl: "./albums/Rihanna_-_Loud.png",
-  exportUrl: "./albums/mosaic.jpg",
-  exportUrlJSON: "./albums/avatars.json",
-});
+loadProject();
