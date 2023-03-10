@@ -3,3 +3,4 @@ build/
 
 # macOS
 .DS_Store
+jest.config.js
